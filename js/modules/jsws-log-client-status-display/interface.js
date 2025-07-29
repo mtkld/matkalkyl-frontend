@@ -18,13 +18,17 @@ class JSWSLogClientStatusDisplay {
     return el;
   }
 
+  render() {
+    return this.el;
+  }
+
   updateStatus() {
     if (window.logger?.connected) {
-      this.el.textContent = "WebSocket status: connected";
+      this.el.textContent = "JSWS Logger WebSocket status: connected";
       this.el.classList.remove("status-false");
       this.el.classList.add("status-true");
     } else {
-      this.el.textContent = "WebSocket status: disconnected";
+      this.el.textContent = "JSWS Logger WebSocket status: disconnected";
       this.el.classList.remove("status-true");
       this.el.classList.add("status-false");
     }

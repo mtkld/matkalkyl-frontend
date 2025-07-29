@@ -60,6 +60,10 @@ class ContextSwitcher {
           name: "console display",
           el: new ConsoleDisplay().render(),
         },
+        {
+          name: "JS WS log client status display",
+          el: new JSWSLogClientStatusDisplay().render(),
+        },
       ],
     });
   }

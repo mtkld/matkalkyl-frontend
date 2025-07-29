@@ -1,4 +1,31 @@
-<!DOCTYPE html>
+<?php
+function includeAllJS(string $baseDir, string $webPath)
+{
+    $absPath = realpath($baseDir);
+    if (!$absPath || !is_dir($absPath)) {
+        return;
+    }
+
+    $baseLen = strlen($absPath);
+
+    $rii = new RecursiveIteratorIterator(
+        new RecursiveDirectoryIterator($absPath, RecursiveDirectoryIterator::SKIP_DOTS)
+    );
+
+    foreach ($rii as $file) {
+        if ($file->getExtension() !== 'js') {
+            continue;
+        }
+
+        $relativePath = substr($file->getPathname(), $baseLen); // e.g. /subdir/script.js
+        $urlPath = rtrim($webPath, '/') . str_replace(DIRECTORY_SEPARATOR, '/', $relativePath);
+
+        echo "\t\t<script defer src=\"{$urlPath}?v=" . time() . "\"></script>\n";
+    }
+}
+
+
+?><!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
@@ -6,49 +33,29 @@
 
 		<title>Test</title>
 
-		<!--     Unused
-		     -------------------- 
+		<!--    Categories
+			-------------------- 
+			Primitives
 			Config 
 			Config: System 
 			Config: User 
+			Exec: Initialize
+			Exec: Operate
 			Exec: Finalize
 			Data: State 
 			Data: Artifact 
-		     -------------------- -->
+			-------------------- -->
 		
-		<!-- Primitives -->	
-		<script defer src="/js/pipe.js?v=<?= time() ?>"></script>
-		<script defer src="/js/masterpiperelay.js?v=<?= time() ?>"></script>
-		<script defer src="/js/jswslogclient.js?v=<?= time() ?>"></script>
-		<script defer src="/js/jswslogclientstatusdisplay.js?v=<?= time() ?>"></script>
-		
-		<!-- Exec -->
+<?php includeAllJS(__DIR__ . '/js/primitives', '/js/primitives'); ?>
 
+<?php includeAllJS(__DIR__ . '/js/modules', '/js/modules'); ?>
 
+<?php includeAllJS(__DIR__ . '/js/framework', '/js/framework'); ?>
 
-		<!-- Exec: Operate -->
-
-		<script defer src="/js/core-system-logic/encryption.js?v=<?= time() ?>"></script>
-		<script defer src="/js/storage-logic/user-local-store.js?v=<?= time() ?>"></script>
-		<script defer src="/js/core-system-logic/user.js?v=<?= time() ?>"></script>
-
-		<script defer src="/js/coordination-logic/ui-data-coordinator.js?v=<?= time() ?>"></script>
-		<script defer src="/js/coordination-logic/context/context.js?v=<?= time() ?>"></script>
-		<script defer src="/js/coordination-logic/context/context-manager.js?v=<?= time() ?>"></script>
-		<script defer src="/js/coordination-logic/context/context-switcher.js?v=<?= time() ?>"></script>
-		<script defer src="/js/coordination-logic/display-coordinator.js?v=<?= time() ?>"></script>
-		<script defer src="/js/coordination-logic/user-interaction-coordinator.js?v=<?= time() ?>"></script>
-
-		<script defer src="/js/display-logic/register-user-ui.js?v=<?= time() ?>"></script>
-
-		<script defer src="/js/wspluginclient.js?v=<?= time() ?>"></script>
-
-				
-		<script defer src="/js/consoledisplay.js?v=<?= time() ?>"></script>
-
-		<!-- Exec: Initialize -->
 		<script defer src="/js/init.js?v=<?= time() ?>"></script>
 		<script defer src="/js/DOMContentLoaded.js?v=<?= time() ?>"></script>
+
+
 
 	</head>
 
