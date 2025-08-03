@@ -1,5 +1,5 @@
 // d:01983726-0190-7681-97f4-674b375d50f3
-class User {
+export class User {
   static currentRegistrationAttemptSucceeded = false;
 
   constructor(metavaultUUID, wsInstance = null) {
@@ -143,23 +143,6 @@ class User {
     //    this.ws.sendMetavaultOperation("a", metavault_uuid, payload);
   }
 
-  uuidv7() {
-    const now = BigInt(Date.now()).toString(16).padStart(12, "0");
-    const rand = crypto.getRandomValues(new Uint8Array(10));
-    const timeLow = now.slice(0, 8);
-    const timeMid = now.slice(8, 12);
-    const timeHi =
-      ((rand[0] & 0x0f) | 0x70).toString(16).padStart(2, "0") +
-      rand[1].toString(16).padStart(2, "0");
-    const clockSeq =
-      ((rand[2] & 0x3f) | 0x80).toString(16).padStart(2, "0") +
-      rand[3].toString(16).padStart(2, "0");
-    const node = [...rand.slice(4)]
-      .map((b) => b.toString(16).padStart(2, "0"))
-      .join("");
-    return `${timeLow}-${timeMid}-${timeHi}-${clockSeq}-${node}`;
-  }
-
   async verify(wsInstance) {
     const { permanonce_uuid, private_key_b64 } =
       this.userDataStore.data.encryption;
@@ -201,6 +184,7 @@ class User {
     return true; // No roundtrip verification from server, we assume local sign was valid.
   }
 
+  // TODO: Is this used ?
   async init() {
     await this.ws.ready;
 

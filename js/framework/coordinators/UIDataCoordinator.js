@@ -1,5 +1,5 @@
 // d:01983629-da4a-74ef-b536-b3f94f0d11c8
-class UIDataCoordinator {
+export class UIDataCoordinator {
   constructor() {
     this.data = new Map();
   }

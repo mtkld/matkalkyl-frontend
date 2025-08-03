@@ -1,5 +1,5 @@
 // d:01983770-ee2f-7354-822a-12e67580ad76
-class UserInteractionCoordinator {
+export class UserInteractionCoordinator {
   constructor(masterPipeRelay) {
     this.masterPipeRelay = masterPipeRelay;
     this.pipe = new Pipe();

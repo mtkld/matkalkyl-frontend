@@ -1,7 +1,7 @@
-class UserLocalStore {
-  constructor() {
-    this.dbName = "MKLocalDB";
-    this.storeName = "users";
+export class IndexDBOldWorking {
+  constructor(dbName, storeName) {
+    this.dbName = dbName;
+    this.storeName = storeName;
     this.userId = null;
     this.data = {}; // mutable user-facing object
   }
@@ -54,6 +54,38 @@ class UserLocalStore {
         resolve(this.data);
       };
       req.onerror = () => reject(req.error);
+    });
+  }
+  async deleteStore() {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open(this.dbName);
+      request.onsuccess = (event) => {
+        const db = event.target.result;
+        const version = db.version + 1;
+        db.close();
+
+        const upgradeRequest = indexedDB.open(this.dbName, version);
+        upgradeRequest.onupgradeneeded = (e) => {
+          const upgradedDb = e.target.result;
+          if (upgradedDb.objectStoreNames.contains(this.storeName)) {
+            upgradedDb.deleteObjectStore(this.storeName);
+          }
+        };
+        upgradeRequest.onsuccess = () => {
+          upgradeRequest.result.close();
+          resolve(true);
+        };
+        upgradeRequest.onerror = () => reject(upgradeRequest.error);
+      };
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  async deleteDatabase() {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.deleteDatabase(this.dbName);
+      request.onsuccess = () => resolve(true);
+      request.onerror = () => reject(request.error);
     });
   }
 }

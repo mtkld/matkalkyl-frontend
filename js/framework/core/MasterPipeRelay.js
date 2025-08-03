@@ -1,11 +1,11 @@
 // d:019826a3-2c50-75a8-b94a-eeaf62fffd73
-class MasterPipeRelay {
+export class MasterPipeRelay {
   // d:019826a3-4cff-7498-8af8-bd46fc5f6182
-  constructor(name = "master", signals = {}) {
+  constructor(signals = {}) {
     this._signals = new Set(Object.values(signals));
     this._signalsOriginalObject = signals; // keep original object for reference
     this.sig = signals; // keep one for public access
-    this.id = `${name}-${crypto.randomUUID().slice(0, 8)}`; // unique listener ID
+    this.id = `${crypto.randomUUID().slice(0, 8)}`; // unique listener ID
     this.pipe = new Pipe(); // public and exposed
     this._receivers = new Set(); // just Pipe instances
 

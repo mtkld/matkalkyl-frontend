@@ -1,12 +1,13 @@
 // d:019835db-7d60-722d-938b-637e89c7ca81
-class Context {
+export class Context {
   static type = Object.freeze({
     REGISTER_USER: 0,
   });
 
-  constructor(config = {}) {
+  constructor(contextType, config = {}) {
     this.config = { ...config }; // shallow clone of config object
     this.components = [];
+    this.type = contextType;
 
     if (Array.isArray(config.components)) {
       for (const c of config.components) {

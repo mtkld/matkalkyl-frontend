@@ -1,4 +1,5 @@
-class WSPluginClient {
+// d:01986a47-71c1-7fdd-a4b7-839671efd1c6
+export class WSPluginClient {
   constructor(url = "wss://test.matkalkyl.dev/ws") {
     this.socket = new WebSocket(url);
     this.socket.binaryType = "arraybuffer";

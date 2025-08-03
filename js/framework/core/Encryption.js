@@ -1,5 +1,5 @@
 // d:019837c5-6b63-7af8-bbd5-1390a8cfa768
-class encryption {
+export class encryption {
   constructor() {}
   //password key derivation (PBKDF2)
   //asymmetric keypair generation (ECDSA)

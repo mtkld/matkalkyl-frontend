@@ -1,8 +1,7 @@
 // d:019835dc-85e1-7aae-815f-62590b3ad4ec
-class ContextSwitcher {
+export class ContextSwitcher {
   constructor() {
     this.currentContext = null;
-    this.currentContextType = -1;
     this.currentUserInteractionCoordinator = null;
     this.currentContextMasterPipeRelay = null;
   }
@@ -49,8 +48,7 @@ class ContextSwitcher {
       this.currentContextMasterPipeRelay,
     );
 
-    this.currentContextType = Context.type.REGISTER_USER;
-    this.currentContext = new Context({
+    this.currentContext = new Context(Context.type.REGISTER_USER, {
       components: [
         {
           name: "register user",

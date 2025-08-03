@@ -1,5 +1,5 @@
 // d:0198364d-7805-77b4-abcd-9cb7803e5276
-class DisplayCoordinator {
+export class DisplayCoordinator {
   constructor(rootEl) {
     this.rootEl = rootEl;
     this._listenerId = `ConsoleDisplay-${crypto.randomUUID().slice(0, 8)}`;
