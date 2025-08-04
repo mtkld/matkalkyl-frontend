@@ -11,7 +11,7 @@ export class SignalRelay {
   registerListener(pipe) {
     this.masterPipeRelay.registerReceiver(pipe);
   }
-  list() {
+  listSignals() {
     return this.signals;
   }
 }

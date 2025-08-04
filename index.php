@@ -117,6 +117,8 @@ function generateGlobalImports(string $baseDir, string $webPath)
 		document.addEventListener("DOMContentLoaded", async () => {
 			// Lets import everything once and for all and forget about the messy import {...} syntax.
 			// We need 
+<?php generateGlobalImports(__DIR__ . '/js/primitives', '/js/primitives'); ?>
+
 <?php generateGlobalImports(__DIR__ . '/js/framework', '/js/framework'); ?>
 
 <?php echo implode("\n", array_map(fn ($line) => "\t\t\t\t" . $line, explode("\n", file_get_contents(__DIR__ . '/js/DOMContentLoaded.js')))); ?>

@@ -9,6 +9,7 @@ export class MKFramework {
   static _pluginList = [];
   static _localSignalRelayList = new Map();
   static _contextList = new Map();
+  static _userStorageList = [];
 
   constructor(secret) {
     // Prevent exteranl code from instantiating this class directly.
@@ -113,19 +114,15 @@ export class MKFramework {
   //------------------------------------------------------------------------//
   //                            User local store                           //
   //------------------------------------------------------------------------//
-  saveAllPluginLocalData() {
-    for (const plugin of MKFramework._pluginList) {
-      const objToSave = plugin.saveLocalData();
-    }
-  }
-  loadAllPluginLocalData() {
-    for (const plugin of MKFramework._pluginList) {
-      plugin.loadLocalData();
-    }
+  async openUserStorage(userID, pluginID, storeID) {
+    const store = new UserIndexDB(userID, pluginID);
+    await store.open(storeID);
+    MKFramework._userStorageList.push(store);
+    return store;
   }
 
   //------------------------------------------------------------------------//
-  //                                  user                                  //
+  //                                  User                                  //
   //------------------------------------------------------------------------//
 
   async userCreate(metavaultUUID, wsInstance = null) {
@@ -136,10 +133,27 @@ export class MKFramework {
   }
 
   //------------------------------------------------------------------------//
-  //                        Global master pipe relay                       //
-  //------------------------------------------------------------------------//
-
-  //------------------------------------------------------------------------//
   //                         Local master pipe relay                       //
   //------------------------------------------------------------------------//
+  makeLocalMasterPipeRelay(signals = {}) {
+    const relay = new MasterPipeRelay(signals);
+    MKFramework._localSignalRelayList.set(relay, signals);
+    return relay;
+  }
+  destroyLocalMasterPipeRelay(relay) {
+    console.log("Not implemented yet: MKFramework.destroyLocalMasterPipeRelay");
+  }
+
+  //------------------------------------------------------------------------//
+  //                            Context Switcher                           //
+  //------------------------------------------------------------------------//
+  switchContext(context) {
+    console.log("Not implemented yet: MKFramework.switchContext");
+  }
+  registerContext(context) {
+    console.log("Not implemented yet: MKFramework.registerContext");
+  }
+  unregisterContext(context) {
+    console.log("Not implemented yet: MKFramework.unregisterContext");
+  }
 }
